@@ -54,8 +54,7 @@ export default function Home() {
         setIsOwner(ownerStatus)
 
         const deployerAddress = await contract.deployerAddress()
-        setIsDeployer(deployerAddress == account)
-
+        setIsDeployer(deployerAddress.toLowerCase() == account)
       } catch (error) {
         console.error(error)
       }
