@@ -12,5 +12,12 @@ export const useWallet = create((set) => ({
 
    userCredits: 0,
    setUserCredits: (credits) => set({ userCredits: credits }),
+
+   isOwner: false,
+   setIsOwner: (status) => set({ isOwner: status }),
+
+   platformBalance: 0,
+   setPlatformBalance: (balance) => set({ platformBalance: balance }),
+
 }))
 

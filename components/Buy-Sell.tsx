@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react"
 
 export default function BuySellSection() {
 
-   const { platformCredits, balance, userCredits, setBalance, account, setUserCredits } = useWallet()
+   const { platformCredits, balance, userCredits, setBalance, account, setUserCredits, setPlatformCredits } = useWallet()
    const [buyField, setBuyField] = useState<string | number | readonly string[] | undefined>("")
    const [sellField, setSellField] = useState<string | number | readonly string[] | undefined>("")
 
@@ -23,8 +23,8 @@ export default function BuySellSection() {
          const provider = new BrowserProvider(window.ethereum)
          const signer = await provider.getSigner()
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer)
-         const pricePerCredit = parseEther("0.001");        // to be changed to 1 finney = 0.001 ETH
-         const quantity = BigInt(buyField as string | number | bigint | boolean);       
+         const pricePerCredit = parseEther("0.000000001");        // to be changed to 1 finney = 0.001 ETH
+         const quantity = BigInt(buyField as string | number | bigint | boolean);
          const parsedCost = pricePerCredit * quantity;
          const tx = await contract.buyCarbonCredits(buyField, {
             value: parsedCost,
@@ -33,10 +33,13 @@ export default function BuySellSection() {
          await tx.wait()
 
          const userBalance = await contract.getCreditBalance(account)
-         setUserCredits(Number(userBalance))
 
          const fetchedBalanceBigInt = await provider.getBalance(account)
+         const fetchedPlatformCredits = await contract.getPlatformAvailableCredits()
+         setUserCredits(Number(userBalance))
          setBalance(Number(formatEther(fetchedBalanceBigInt)).toFixed(4))
+         setPlatformCredits(Number(fetchedPlatformCredits))
+
 
 
          toast.success(`${buyField} Carbon Credits credited to your account`)
@@ -61,8 +64,14 @@ export default function BuySellSection() {
 
          await tx.wait()
 
+         const userBalance = await contract.getCreditBalance(account)
+
          const fetchedBalanceBigInt = await provider.getBalance(account)
+         const fetchedPlatformCredits = await contract.getPlatformAvailableCredits()
+         setUserCredits(Number(userBalance))
          setBalance(Number(formatEther(fetchedBalanceBigInt)).toFixed(4))
+
+         setPlatformCredits(Number(fetchedPlatformCredits))
 
          toast.success(`${Number(sellField) * 0.001} ETH credited to your account`)
       } catch (error) {

@@ -5,3 +5,9 @@
   --color-primary: #00A86B; /* Example: MetaMask orange */
   --color-primary-hover: #00945F; /* Example: MetaMask orange */
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

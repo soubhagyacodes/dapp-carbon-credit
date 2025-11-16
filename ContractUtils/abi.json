@@ -404,11 +404,80 @@
 						"internalType": "bool",
 						"name": "isOwner",
 						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "listIndex",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct CarbonCredits.OwnerData",
 				"name": "",
 				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnerList",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPlatformAvailableCredits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "isOwner",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerList",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -433,6 +502,11 @@
 				"internalType": "bool",
 				"name": "isOwner",
 				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "listIndex",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
