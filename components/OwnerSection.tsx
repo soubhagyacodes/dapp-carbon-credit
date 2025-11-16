@@ -19,6 +19,8 @@ export default function OwnerSection() {
    const [addLoading, setAddLoading] = useState(false)
    const [dialogOpen, setDialogOpen] = useState(false)
 
+   const [loadingAddress, setLoadingAddress] = useState("")
+
    const [owner, setOwner] = useState({
       name: "",
       address: ""
@@ -64,15 +66,16 @@ export default function OwnerSection() {
    const handleDelete = async (address: string) => {
       try {
          setDeleteLoading(true)
+         setLoadingAddress(address)
          const provider = new BrowserProvider(window.ethereum);
          const signer = await provider.getSigner();
 
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer);
 
-         await contract.removeOwner(address);
+         const tx = await contract.removeOwner(address);
 
-         setOwnersLoading(true)
-         await new Promise(res => setTimeout(res, 6000));
+         const receipt = await tx.wait();
+
          await fetchOwners()
          toast.success("Owner Removed Successfully")
 
@@ -82,6 +85,7 @@ export default function OwnerSection() {
       }
       finally {
          setDeleteLoading(false)
+         setLoadingAddress("")
       }
 
    }
@@ -94,9 +98,9 @@ export default function OwnerSection() {
 
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer);
 
-         await contract.addOwner(owner.address, owner.name);
-         setOwnersLoading(true)
-         await new Promise(res => setTimeout(res, 6000));
+         const tx = await contract.addOwner(owner.address, owner.name);
+
+         const receipt = await tx.wait();
 
          await fetchOwners()
 
@@ -146,7 +150,7 @@ export default function OwnerSection() {
                            <td className="py-2 px-4 font-bold">{index + 1}</td>
                            <td className="py-2 px-4">{name}</td>
                            <td className="py-2 px-4">{address}</td>
-                           {isDeployer && <td className=""><button onClick={() => { handleDelete(address) }} className="flex gap-1 items-center text-red-500 disabled:text-red-700 font-semibold hover:bg-red-500/20 duration-300 cursor-pointer rounded-xl px-4 py-1" disabled={deleteLoading}>{deleteLoading ? <Loader2 className="animate-spin" /> : <Trash2 size={16} />}Delete</button></td>}
+                           {isDeployer && <td className=""><button onClick={() => { handleDelete(address) }} className="flex gap-1 items-center text-red-500 disabled:text-red-700 font-semibold hover:bg-red-500/20 duration-300 cursor-pointer rounded-xl px-4 py-1" disabled={deleteLoading}>{deleteLoading && (loadingAddress == address) ? <Loader2 className="animate-spin" /> : <Trash2 size={16} />}Delete</button></td>}
                         </tr>
                      })}
                   </tbody>
@@ -177,7 +181,7 @@ export default function OwnerSection() {
                         <input type="text" value={owner.address} onChange={(e) => setOwner((prev) => ({ ...prev, address: e.target.value }))} className="outline-emerald-600 w-full py-3 px-4 border rounded-xl border-gray-300" placeholder="Enter the address of the owner" />
                      </div>
 
-                     <button className="py-3 bg-emerald-600 font-bold cursor-pointer rounded-xl mt-4 text-white disabled:bg-emerald-700 flex gap-2 justify-center disabled:cursor-not-allowed" onClick={handleAdd} disabled={addLoading || !owner.name || !owner.address}>{addLoading && <Loader2 className="animate-spin" />}Submit</button>
+                     <button className="py-3 bg-emerald-600 font-bold cursor-pointer rounded-xl mt-4 text-white disabled:bg-emerald-700 flex gap-2 justify-center disabled:cursor-not-allowed" onClick={handleAdd} disabled={addLoading || !owner.name || !owner.address}>{(addLoading ) && <Loader2 className="animate-spin" />}Submit</button>
                   </div>
 
                </AlertDialog.Content>
