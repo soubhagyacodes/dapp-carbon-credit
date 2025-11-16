@@ -28,7 +28,7 @@ export default function NavBar() {
    };
 
    return (
-      <div className='flex items-center py-6 px-6 border border-gray-100 shadow-xs justify-between'>
+      <div className='flex items-center py-6 px-6 justify-between'>
          <div className='flex items-center font-extrabold text-emerald-700 text-2xl gap-1'>
             <Image
                src="/Greenbg-leaf.png"
