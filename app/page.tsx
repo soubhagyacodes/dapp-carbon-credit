@@ -24,8 +24,9 @@ export default function Home() {
   //   console.log("Event details:", event);
   // });
 
-  const { account, setAccount,setPlatformBalance, isOwner, setPlatformCredits,platformBalance, setIsOwner, setUserCredits, userCredits, setBalance, balance, platformCredits } = useWallet()
+  const { account, setAccount, setIsDeployer, setPlatformBalance, isOwner, setPlatformCredits,platformBalance, setIsOwner, setUserCredits, userCredits, setBalance, balance, platformCredits } = useWallet()
   const [loading, setLoading] = useState<boolean>(false)
+   const price_per_credit = process.env.NEXT_PUBLIC_PRICE_PER_CREDIT
 
 
   useEffect(() => {
@@ -51,6 +52,10 @@ export default function Home() {
 
         const ownerStatus = await contract.isOwner(account)
         setIsOwner(ownerStatus)
+
+        const deployerAddress = await contract.deployerAddress()
+        setIsDeployer(deployerAddress == account)
+
       } catch (error) {
         console.error(error)
       }
@@ -88,9 +93,9 @@ export default function Home() {
                 <span className='text-8xl font-extrabold text-white'>{platformCredits}</span> <span className='mb-1 font-medium'>Carbon Credits</span>
               </div>
               <span className='text-5xl self-end '> = </span>
-              <span className='self-end font-medium'> <span className='text-4xl font-bold'>{platformCredits * 0.001}</span> ETH </span>
+              <span className='self-end font-medium'> <span className='text-4xl font-bold'>{platformCredits * Number(price_per_credit)}</span> ETH </span>
             </div>
-            <p className='font-medium'>1 Carbon Credit = 0.001 ETH</p>
+            <p className='font-medium'>1 Carbon Credit = {price_per_credit} ETH</p>
           </div>
 
           <div className='flex-1 flex flex-col p-5 border-3 border-emerald-500 space-y-1 rounded-xl'>
@@ -143,9 +148,9 @@ export default function Home() {
                 <span className='text-8xl font-extrabold text-emerald-600'>{userCredits}</span> <span className='mb-1 font-medium'>Carbon Credits</span>
               </div>
               <span className='text-5xl self-end text-gray-300'> = </span>
-              <span className='self-end text-gray-500 font-medium'> <span className='text-4xl font-bold'>{userCredits * 0.001}</span> ETH </span>
+              <span className='self-end text-gray-500 font-medium'> <span className='text-4xl font-bold'>{userCredits * Number(price_per_credit)}</span> ETH </span>
             </div>
-            <p className='text-gray-500 font-medium'>1 Carbon Credit = 0.001 ETH</p>
+            <p className='text-gray-500 font-medium'>1 Carbon Credit = {price_per_credit} ETH</p>
           </div>
 
           <div className='w-fit p-5 border border-gray-300 space-y-1 rounded-xl'>

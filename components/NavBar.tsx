@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { toast } from 'react-toastify'
 
 export default function NavBar() {
-   const { account, setAccount } = useWallet()
+   const { account, setAccount, isDeployer } = useWallet()
 
    const connectWallet = async () => {
       if (!window.ethereum) {
@@ -44,7 +44,10 @@ export default function NavBar() {
             onClick={connectWallet}
          >Connect Wallet</button>
             :
-            <div className='flex items-center'>
+            <div className='flex items-center gap-7'>
+               {isDeployer && <div className='px-4 py-1 font-bold bg-amber-500 text-white rounded-xl'>
+                  Deployer
+               </div>}
                <div>
                   <div className='flex gap-1 items-center'>
                      <Check className='text-primary' size={18}/>

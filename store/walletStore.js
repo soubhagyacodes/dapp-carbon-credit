@@ -19,5 +19,7 @@ export const useWallet = create((set) => ({
    platformBalance: 0,
    setPlatformBalance: (balance) => set({ platformBalance: balance }),
 
+   isDeployer: false,
+   setIsDeployer: (status) => set({ isDeployer: status }),
 }))
 
