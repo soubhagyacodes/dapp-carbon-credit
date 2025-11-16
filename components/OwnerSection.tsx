@@ -71,7 +71,8 @@ export default function OwnerSection() {
 
          await contract.removeOwner(address);
 
-         await new Promise(res => setTimeout(res, 2000));
+         setOwnersLoading(true)
+         await new Promise(res => setTimeout(res, 6000));
          await fetchOwners()
          toast.success("Owner Removed Successfully")
 
@@ -94,7 +95,8 @@ export default function OwnerSection() {
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer);
 
          await contract.addOwner(owner.address, owner.name);
-         await new Promise(res => setTimeout(res, 2000));
+         setOwnersLoading(true)
+         await new Promise(res => setTimeout(res, 6000));
 
          await fetchOwners()
 
