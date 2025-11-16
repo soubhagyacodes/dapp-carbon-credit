@@ -43,7 +43,7 @@ export default function OwnerSection() {
 
             owners.push({
                name,
-               address: addr,
+               address: addr.toLowerCase(),
             });
          }
 
