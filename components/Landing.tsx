@@ -1,7 +1,6 @@
 'use client'
 
 import { useWallet } from "@/store/walletStore"
-import ConnectWallet from "./ConnectWallet"
 import Image from "next/image"
 import { BrowserProvider } from "ethers";
 import { toast } from "react-toastify";
