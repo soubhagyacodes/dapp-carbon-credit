@@ -61,7 +61,7 @@ export default function OwnerSection() {
       fetchOwners();
    }, []);
 
-   const handleDelete = async () => {
+   const handleDelete = async (address: string) => {
       try {
          setDeleteLoading(true)
          const provider = new BrowserProvider(window.ethereum);
@@ -69,7 +69,9 @@ export default function OwnerSection() {
 
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer);
 
-         await contract.removeOwner();
+         await contract.removeOwner(address);
+
+         await new Promise(res => setTimeout(res, 2000));
          await fetchOwners()
          toast.success("Owner Removed Successfully")
 
@@ -92,8 +94,10 @@ export default function OwnerSection() {
          const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string, ABI, signer);
 
          await contract.addOwner(owner.address, owner.name);
+         await new Promise(res => setTimeout(res, 2000));
+
          await fetchOwners()
-         
+
          setDialogOpen(false)
          toast.success("Owner Added Successfully")
 
@@ -140,7 +144,7 @@ export default function OwnerSection() {
                            <td className="py-2 px-4 font-bold">{index + 1}</td>
                            <td className="py-2 px-4">{name}</td>
                            <td className="py-2 px-4">{address}</td>
-                           {isDeployer && <td className=""><button onClick={handleDelete} className="flex gap-1 items-center text-red-500 disabled:text-red-700 font-semibold hover:bg-red-500/20 duration-300 cursor-pointer rounded-xl px-4 py-1" disabled={deleteLoading}>{deleteLoading ? <Loader2 className="animate-spin" /> : <Trash2 size={16} />}Delete</button></td>}
+                           {isDeployer && <td className=""><button onClick={() => { handleDelete(address) }} className="flex gap-1 items-center text-red-500 disabled:text-red-700 font-semibold hover:bg-red-500/20 duration-300 cursor-pointer rounded-xl px-4 py-1" disabled={deleteLoading}>{deleteLoading ? <Loader2 className="animate-spin" /> : <Trash2 size={16} />}Delete</button></td>}
                         </tr>
                      })}
                   </tbody>
