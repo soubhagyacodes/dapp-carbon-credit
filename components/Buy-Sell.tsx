@@ -98,7 +98,7 @@ export default function BuySellSection() {
                   <p className='text-xl font-bold'>Buy Credits</p>
                   <div className='flex gap-2 mt-2'>
                      <input type="number" value={buyField} onChange={(e) => setBuyField(e.target.value)} min={0} placeholder='00' className='text-6xl border-b-2 border-b-white/40 font-bold focus:border-b-white duration-300 outline-none w-full text-white' />
-                     <button onClick={buyCredits} className='p-3 flex items-center gap-2 disabled:cursor-not-allowed bg-white disabled:bg-white/60 text-emerald-500 font-extrabold text-xl rounded-xl px-10 cursor-pointer' disabled={((Number(buyField) ?? 0) > platformCredits) || ((Number(buyField) ?? 0) * Number(price_per_credit)) > balance || Number(buyField) <= 0 || buyLoading}>
+                     <button onClick={buyCredits} className='p-3 flex items-center gap-2 disabled:cursor-not-allowed bg-white disabled:bg-gray-300 text-emerald-500 font-extrabold text-xl rounded-xl px-10 cursor-pointer' disabled={((Number(buyField) ?? 0) > platformCredits) || ((Number(buyField) ?? 0) * Number(price_per_credit)) > balance || Number(buyField) <= 0 || buyLoading}>
                         {buyLoading && <Loader2 className="animate-spin" />}Buy
                      </button>
                   </div>
@@ -115,7 +115,7 @@ export default function BuySellSection() {
                   <p className='text-xl font-bold'>Sell Credits</p>
                   <div className='flex gap-2 mt-2'>
                      <input type="number" value={sellField} onChange={(e) => setSellField(e.target.value)} min={0} placeholder='00' className='text-6xl font-bold border-b-2 border-b-white/40 focus:border-b-white duration-300 outline-none w-full text-white' />
-                     <button onClick={sellCredits} className='p-3 flex gap-2 items-center disabled:cursor-not-allowed disabled:bg-white/60 bg-white text-emerald-500 font-extrabold text-xl rounded-xl px-10 cursor-pointer' disabled={(Number(sellField) ?? 0) > userCredits || Number(sellField) <= 0 || sellLoading}>
+                     <button onClick={sellCredits} className='p-3 flex gap-2 items-center disabled:cursor-not-allowed disabled:bg-gray-300 bg-white text-emerald-500 font-extrabold text-xl rounded-xl px-10 cursor-pointer' disabled={(Number(sellField) ?? 0) > userCredits || Number(sellField) <= 0 || sellLoading}>
                         {sellLoading && <Loader2 className="animate-spin" />}Sell
                      </button>
                   </div>

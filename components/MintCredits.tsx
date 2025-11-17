@@ -25,7 +25,9 @@ export default function MintCredits() {
          const signer = await provider.getSigner()
          const contract = new Contract((process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string), ABI, signer)
 
-         await contract.mint(toAddress, mintValue)
+         const tx = await contract.mint(toAddress, mintValue)
+
+         await tx.wait()
 
          toast.success(`${mintValue} Carbon Credits Minted Successfully`)
       } catch (error) {
